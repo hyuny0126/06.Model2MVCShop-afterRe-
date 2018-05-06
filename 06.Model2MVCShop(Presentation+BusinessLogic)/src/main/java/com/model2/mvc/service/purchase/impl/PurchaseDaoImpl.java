@@ -34,7 +34,6 @@ public class PurchaseDaoImpl implements PurchaseDao {
 	///Method
 	@Override
 	public void addPurchase(Purchase purchase) throws Exception {
-		System.out.println("펄체이스 다오 시작");
 		sqlSession.insert("PurchaseMapper.addPurchase", purchase);
 	}
 

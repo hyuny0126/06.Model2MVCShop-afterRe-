@@ -9,27 +9,28 @@
  	
 	<resultMap id="productSelectMap" type="product">
 		<result property="prodNo" 			column="prod_no" 			jdbcType="INTEGER"/>
-		<result property="prodName"	column="prod_name" 		jdbcType="VARCHAR" />
-		<result property="prodDetail" 	column="prod_detail" 		jdbcType="VARCHAR" />
-		<result property="manuDate" 				column="manufacture_day" 					jdbcType="VARCHAR" />
-		<result property="price" 				column="price" 					jdbcType="INTEGER" />
-		<result property="fileName" 			column="image_file" 		jdbcType="VARCHAR" />
-		<result property="regDate" 				column="reg_date" 					jdbcType="DATE" />
-		<result property="proTranCode" 				column="proTranCode" 					jdbcType="INTEGER" /><!-- 쿼리에 AS를 줘서 그값을 가져옴 -->
+		<result property="prodName"			column="prod_name" 			jdbcType="VARCHAR" />
+		<result property="prodDetail" 		column="prod_detail" 		jdbcType="VARCHAR" />
+		<result property="manuDate" 		column="manufacture_day" 	jdbcType="VARCHAR" />
+		<result property="price" 			column="price" 				jdbcType="INTEGER" />
+		<result property="fileName" 		column="image_file" 		jdbcType="VARCHAR" />
+		<result property="regDate" 			column="reg_date" 			jdbcType="DATE" />
+		<result property="proTranCode" 		column="proTranCode" 		jdbcType="INTEGER" /><!-- 쿼리에 AS를 줘서 그값을 가져옴 -->
+		<result property="quantity" 		column="quantity"			jdbcType="INTEGER"/>
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
 	<insert 	id="addProduct" parameterType="product" >
 	 	INSERT
-		INTO product( prod_no , prod_name , prod_detail , manufacture_day , price, image_file, reg_date) 
+		INTO product( prod_no , prod_name , prod_detail , manufacture_day , price, image_file, reg_date,quantity) 
 		VALUES	 (seq_product_prod_no.NEXTVAL, #{prodName}, #{prodDetail}, #{manuDate}, 
-							#{price}, #{fileName}, SYSDATE )
+							#{price}, #{fileName}, SYSDATE , #{quantity} )
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getProduct"	parameterType="INTEGER"	resultMap="productSelectMap">
 		SELECT
-		prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date 		
+		prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date, quantity		
 		FROM product 
 		WHERE prod_no = #{value}
 	 </select>
@@ -42,19 +43,19 @@
 			prod_detail		= #{prodDetail},
 			manufacture_day = #{manuDate} ,
 			price			=#{price},
-			image_file		=#{fileName}
+			image_file		=#{fileName},
+			quantity		=#{quantity}
 	   	</set>
 	   	WHERE prod_no = #{prodNo}
 	 </update>
 		 
 	<!-- SQL : SELECT LIST -->
 	<select  id="getProductList"  parameterType="search" 	resultMap="productSelectMap">
-	  	SELECT *
+	  	SELECT prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date, quantity 
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT p.prod_no , p.prod_name , p.prod_detail, p.manufacture_day,  p.price, p.image_file,p.reg_date, NVL(t.tran_status_code,0) proTranCode 
-											FROM transaction t, product p
+	  					FROM		(	SELECT prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date, quantity 
+											FROM product 
 											<where>
-											p.prod_no=t.prod_no(+)  
 												<if test="searchCondition != null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
 										 				AND p.prod_no = #{searchKeyword}
@@ -67,7 +68,12 @@
 													</if>
 												</if>
 											</where>
-											ORDER BY prod_no ) inner_table
+											ORDER BY 
+												<if test="listOrderby==null">prod_no</if>
+												<if test="listOrderby==0">reg_date desc</if>
+												<if test="listOrderby==1">price</if>
+												<if test="listOrderby==2">price desc</if>
+											 ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>

@@ -54,11 +54,11 @@
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="100">구매번호</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="100">상품번호</td>
+		<td class="ct_list_b" width="50">상품번호</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="50">회원ID</td>
+		<td class="ct_list_b" width="50">구매수량</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="50">회원명</td>
+		<td class="ct_list_b" width="50">받는사람</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">전화번호</td>
 		<td class="ct_line02"></td>
@@ -90,7 +90,8 @@
 				<td></td>
 				
 				<td align="left">
-					<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
+					<!-- 기존회원 아이디<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a> -->
+					${purchase.quantity}
 				</td>
 				<td></td>
 		

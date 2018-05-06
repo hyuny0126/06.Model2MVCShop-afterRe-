@@ -18,6 +18,8 @@ public class Purchase {
 	private String receiverPhone;
 	private String tranCode;
 	private int tranNo;
+	//구매수량
+	private int quantity;
 	
 	public Purchase(){
 	}
@@ -89,6 +91,15 @@ public class Purchase {
 		this.tranNo = tranNo;
 	}
 	
+	//구매수량
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	@Override
 	public String toString() {
 		return "PurchaseVO [buyer=" + buyer + ", divyAddr=" + divyAddr
@@ -97,6 +108,6 @@ public class Purchase {
 				+ paymentOption + ", purchaseProd=" + purchaseProd
 				+ ", receiverName=" + receiverName + ", receiverPhone="
 				+ receiverPhone + ", tranCode=" + tranCode + ", tranNo="
-				+ tranNo + "]";
+				+ tranNo + "  ,구매수량 ="+quantity+"]";
 	}
 }

@@ -59,7 +59,7 @@
 			<select 	name="paymentOption" 	class="ct_input_g" style="width: 100px; height: 19px" 
 							maxLength="20">
 				<c:choose>
-					<c:when test="${purchase.paymentOption==1}">
+					<c:when test="${purchase.paymentOption=='1'}">
 						<option value="1" selected="selected">현금구매</option>
 						<option value="2">신용구매</option>
 					</c:when>
@@ -101,7 +101,7 @@
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverAddr" class="ct_input_g" style="width: 100px; height: 19px" 
+			<input 	type="text" name="divyAddr" class="ct_input_g" style="width: 100px; height: 19px" 
 							maxLength="20" value="${purchase.divyAddr}" />
 		</td>
 	</tr>
@@ -112,7 +112,7 @@
 		<td width="104" class="ct_write">구매요청사항</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
+			<input 	type="text" name="divyRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
 							maxLength="20" value="${purchase.divyRequest}" />
 		</td>
 	</tr>

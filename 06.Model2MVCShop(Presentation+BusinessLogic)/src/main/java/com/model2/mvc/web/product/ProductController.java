@@ -51,7 +51,7 @@ public class ProductController {
 	
 	//상품등록
 	@RequestMapping("/addProduct.do")
-	public String addUser( @ModelAttribute("product") Product product) throws Exception {
+	public String addProduct( @ModelAttribute("product") Product product) throws Exception {
 
 		System.out.println("/addProduct.do");
 		//Business Logic
@@ -63,7 +63,7 @@ public class ProductController {
 	
 	//상품조회
 	@RequestMapping("/getProduct.do")
-	public String getUser( @RequestParam("prodNo") String prodNo ,
+	public String getProduct( @RequestParam("prodNo") String prodNo ,
 														Model model,
 														HttpServletRequest request,
 														HttpServletResponse response) throws Exception {
@@ -100,7 +100,7 @@ public class ProductController {
 	
 	///상품수정 전 화면 요청
 	@RequestMapping("/updateProductView.do")
-	public String updateUserView( @RequestParam("prodNo") String prodNo , Model model ) throws Exception{
+	public String updateProductView( @RequestParam("prodNo") String prodNo , Model model ) throws Exception{
 
 		System.out.println("/updateProductView.do");
 		//Business Logic
@@ -113,7 +113,7 @@ public class ProductController {
 	
 	///상품수정 요청
 	@RequestMapping("/updateProduct.do")
-	public String updateUser( @ModelAttribute("product") Product product , 
+	public String updateProduct( @ModelAttribute("product") Product product , 
 															Model model , 
 															HttpSession session) throws Exception{
 
@@ -126,33 +126,37 @@ public class ProductController {
 	
 	// 상품리스트
 	@RequestMapping("/listProduct.do")
-	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("/listProduct.do");
 		
+		System.out.println("서치 확인"+search.getListOrderby());
+		System.out.println("11111"+search);
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
+		System.out.println("22222"+search);
 		// Business logic 수행
 		Map<String , Object> map=productService.getProductList(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
+		System.out.println("잘 갔따왔냐");
 		// Model 과 View 연결
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
 		String result = "";
+		System.out.println("메누체크"+request.getParameter("menu"));
 		if (request.getParameter("menu").equals("search")) {
 			result ="forward:/product/listProductSerch.jsp";
 		}else {
 			result ="forward:/product/listProductManage.jsp";
 		}
-		
+		System.out.println("111111111111"+result);
 		return result;
 	}
 }

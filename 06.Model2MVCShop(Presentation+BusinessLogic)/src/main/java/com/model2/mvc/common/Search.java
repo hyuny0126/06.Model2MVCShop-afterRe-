@@ -15,6 +15,8 @@ public class Search {
 	//==> 참조
 	private int endRowNum;
 	private int startRowNum;
+	//상품소팅을 위해서
+	private String listOrderby;
 	
 	///Constructor
 	public Search() {
@@ -58,11 +60,20 @@ public class Search {
 		return (getCurrentPage()-1)*getPageSize()+1;
 	}
 
+	//상품소팅을 위해서
+	public String getListOrderby() {
+		return listOrderby;
+	}
+
+	public void setListOrderby(String listOrderby) {
+		this.listOrderby = listOrderby;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition="
 				+ searchCondition + ", searchKeyword=" + searchKeyword
 				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+				+ ", startRowNum=" + startRowNum + ",  listOrderby"+listOrderby+"]";
 	}
 }

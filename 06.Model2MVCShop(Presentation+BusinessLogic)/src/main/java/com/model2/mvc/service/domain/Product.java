@@ -10,9 +10,11 @@ public class Product {
 	private int price;
 	private String prodDetail;
 	private String prodName;
-	private int prodNo;  // 상품번호
+	private int prodNo;  
 	private Date regDate;
 	private String proTranCode;
+	//구매수량
+	private int quantity;
 	
 	public Product(){
 	}
@@ -66,10 +68,19 @@ public class Product {
 		this.regDate = regDate;
 	}
 
+	//구매수량
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	// Override
 	public String toString() {
 		return "ProductVO : [fileName]" + fileName
 				+ "[manuDate]" + manuDate+ "[price]" + price + "[prodDetail]" + prodDetail
-				+ "[prodName]" + prodName + "[prodNo]" + prodNo+"[배송코드 확인 proTranCode]"+proTranCode;
+				+ "[prodName]" + prodName + "[prodNo]" + prodNo+"[배송코드 확인 proTranCode]"+proTranCode+"[구매수량]"+quantity;
 	}	
 }

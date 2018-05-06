@@ -118,8 +118,11 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >
+		<td colspan="6" >
 			전체  ${resultPage.totalCount } 건수, 현재  ${resultPage.currentPage} 페이지
+		</td>
+		<td colspan="6" >
+			<a href="/listProduct.do?listOrderby=0&menu=search">신상품순</a>&nbsp;&nbsp; <a href="/listProduct.do?listOrderby=1&menu=search">가격낮은순</a>&nbsp;&nbsp;<a href="/listProduct.do?listOrderby=2&menu=search">가격높은순</a> 
 		</td>
 	</tr>
 	<tr>
@@ -131,10 +134,14 @@
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">등록일</td>	
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">현재상태</td>	
+		<td class="ct_list_b">수량</td>
+		<td class="ct_line02"></td>	
+		<td class="ct_list_b">현재상태</td>
+		<td class="ct_line02"></td>
+	
 	</tr>
 	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
+		<td colspan="12" bgcolor="808285" height="1"></td>
 	</tr>
 	
 	
@@ -147,9 +154,9 @@
 					<td></td>
 					
 					<td align="left">
-					<!-- 구매버튼 나오도록 (배송코드에 따라) -->
+					<!-- 구매버튼 나오도록 (수량에 따라) -->
 					<c:choose>
-						<c:when test="${product.proTranCode.trim()=='0'}"><a href="/getProduct.do?prodNo=${product.prodNo}&menu=search">${product.prodName}</a></c:when>
+						<c:when test="${product.quantity>=1}"><a href="/getProduct.do?prodNo=${product.prodNo}&menu=search">${product.prodName}</a></c:when>
 						<c:otherwise>${product.prodName}</c:otherwise>
 					</c:choose>	
 					</td>
@@ -161,16 +168,20 @@
 					<td align="left">${product.manuDate}</td>
 					<td></td>
 					
+					<td align="left">${product.quantity}</td>
+					<td></td>
+					
+					
 					<td align="left">
-					<!-- 현재상태 항목(배송코드에 따라)  -->	
+					<!-- 현재상태 항목(수량에 따라)  -->	
 					<c:choose>
-						<c:when test="${product.proTranCode.trim()=='0'}">판매중</c:when>
+						<c:when test="${product.quantity>=1}">판매중</c:when>
 						<c:otherwise>재고없음</c:otherwise>
 					</c:choose>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+					<td colspan="12" bgcolor="D6D7D6" height="1"></td>
 				</tr>	
 			</c:forEach>
 </table>
