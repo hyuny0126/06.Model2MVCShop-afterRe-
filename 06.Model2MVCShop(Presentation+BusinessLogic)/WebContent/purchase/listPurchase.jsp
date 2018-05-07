@@ -106,7 +106,7 @@
 				<c:choose>
 					<c:when test="${purchase.tranCode.trim()=='0'}">구매가 최소되었습니다.</c:when>
 					<c:when test="${purchase.tranCode.trim()=='1'}">현재 구매완료 상태입니다.
-						<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=0">구매취소 </a>
+						<a href="/cancleProd.do?tranNo=${purchase.tranNo}&tranCode=0">구매취소 </a>
 					</c:when>
 					<c:when test="${purchase.tranCode.trim()=='2'}">현재 배송중입니다.</c:when>
 					<c:when test="${purchase.tranCode.trim()=='3'}">현재 배송완료 상태입니다.

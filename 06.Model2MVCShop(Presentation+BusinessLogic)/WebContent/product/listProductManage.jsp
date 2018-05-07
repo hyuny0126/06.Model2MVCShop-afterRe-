@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>상품 목록조회</title>
+<title>상품 목록 확인 및 수정</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -35,7 +35,7 @@
 					<tr>
 						<td width="93%" class="ct_ttl01">
 						
-								상품 관리
+								상품 목록 확인 후 수정
 						
 						</td>
 					</tr>
@@ -117,20 +117,29 @@
 	
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 		<tr>
-			<td colspan="11" >
+			<td colspan="6" >
 				전체  ${resultPage.totalCount } 건수, 현재  ${resultPage.currentPage} 페이지
-			</td> 
-		</tr> 
+			</td>
+			<td colspan="5" > 
+				<a href="/listProduct.do?listOrderby=0&menu=manage">신상품순</a>&nbsp;&nbsp; <a href="/listProduct.do?listOrderby=1&menu=manage">가격낮은순</a>&nbsp;&nbsp;<a href="/listProduct.do?listOrderby=2&menu=manage">가격높은순</a> 
+				<input type="hidden" name="listOrderby" value="${search.listOrderby}"/>
+			</td>
+		</tr>
 		<tr>
 			<td class="ct_list_b" width="100">No</td>
 			<td class="ct_line02"></td>
 			<td class="ct_list_b" width="150">상품명</td>
 			<td class="ct_line02"></td>
+			<td class="ct_list_b" width="150">상품번호</td>
+			<td class="ct_line02"></td>
 			<td class="ct_list_b" width="150">가격</td>
 			<td class="ct_line02"></td>
 			<td class="ct_list_b">등록일</td>	
 			<td class="ct_line02"></td>
-			<td class="ct_list_b">현재상태</td>	
+			<td class="ct_list_b">수량</td>
+			<td class="ct_line02"></td>	
+			<td class="ct_list_b">현재상태</td>
+			<td class="ct_line02"></td>	
 		</tr>
 		<tr>
 			<td colspan="11" bgcolor="808285" height="1"></td>
@@ -143,36 +152,32 @@
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 				<td></td>
+				<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">${product.prodName}</a></td>
+				
+				<td></td>
+				<td align="left">${product.prodNo}</td>
+				
+				
+				<td></td>
+				<td align="left">${product.price}</td>
+				
+				<td></td>
+				<td align="left">${product.manuDate}</td>
+				
+				<td></td>
+				<td align="left">${product.quantity}</td>
+				
+				<td></td>
 					<c:choose>
-						<c:when test="${product.proTranCode=='0'}">
-							<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">${product.prodName}</a></td>
+						<c:when test="${product.quantity>=1}">
+							<td align="left">판매중</td>
 						</c:when>	
 						<c:otherwise>
-							<td align="left">${product.prodName}</td>
+							<td align="left">품절(재입고 준비중)</td>
 						</c:otherwise>
 					</c:choose>
 					
-				<td></td>
-				<td align="left">${product.price}</td>
-				<td></td>
-				<td align="left">${product.manuDate}</td>
-				<td></td>
-				<td align="left">
-					
-				<!-- 현재상태 항목(배송코드에 따라)  -->	
-				<c:choose>
-					<c:when test="${product.proTranCode.trim()=='0'}">판매중 </c:when>
-					 <c:when test="${product.proTranCode.trim()=='1'}">구매완료  
-					 	<a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2&menu=manage">배송하기 </a>
-					 </c:when>
-					 <c:when test="${product.proTranCode.trim()=='2'}">배송중  </c:when>
-					 <c:when test="${product.proTranCode.trim()=='-1'}">반품 신청 들어옴 
-					 	<a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=-2&menu=manage">반품수락 </a>
-					 	<a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=-3&menu=manage">반품거절 </a> </c:when>
-					 <c:when test="${product.proTranCode.trim()=='-2'}">반품신청 들어와서 수락함 (반품처리가 완료됨)</c:when>
-					 <c:when test="${product.proTranCode.trim()=='-3'}">반품신청 들어와서 거절함 (물건은 배송되었고 반품신청했으나 거절함)</c:when>
-			  		<c:otherwise> 배송완료</c:otherwise>	
-				</c:choose>
+
 		</tr>
 		<tr>
 			<td colspan="11" bgcolor="D6D7D6" height="1"></td>

@@ -134,6 +134,7 @@ function fncAddPurchase() {
 				<option value="4">4</option>
 				<option value="5">5</option>
 			</select>
+		::현재 구매가능한 수량 ::${product.quantity}
 		</td>
 	</tr>
 	<tr>

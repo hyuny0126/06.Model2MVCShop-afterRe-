@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>회원정보수정</title>
+<title>상품정보보수정</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -145,6 +145,25 @@ function fncAddProduct(){
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
+	
+	<!-- 수량 -->
+	<tr>
+		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+	</tr>
+	<tr>
+		<td width="104" class="ct_write">상품 수량</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01">
+			<input	type="text" name="quantity" class="ct_input_g" 
+						style="width: 200px; height: 19px" maxLength="13" value="${product.quantity}"/>
+		</td>
+	</tr>
+	<tr>
+		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+	</tr>
+	
+	
+	
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">

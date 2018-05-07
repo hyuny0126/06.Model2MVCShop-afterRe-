@@ -15,7 +15,7 @@
 		<result property="price" 			column="price" 				jdbcType="INTEGER" />
 		<result property="fileName" 		column="image_file" 		jdbcType="VARCHAR" />
 		<result property="regDate" 			column="reg_date" 			jdbcType="DATE" />
-		<result property="proTranCode" 		column="proTranCode" 		jdbcType="INTEGER" /><!-- 쿼리에 AS를 줘서 그값을 가져옴 -->
+		<result property="proTranCode"  								jdbcType="VARCHAR"/>
 		<result property="quantity" 		column="quantity"			jdbcType="INTEGER"/>
 	</resultMap>
 	
@@ -39,11 +39,11 @@
 	 <update	id="updateProduct"	parameterType="product" >
 	   	UPDATE product
 	   	<set>
-	   		prod_name 		= #{prodName} ,
+	   		prod_name 		= #{prodName},
 			prod_detail		= #{prodDetail},
 			manufacture_day = #{manuDate} ,
 			price			=#{price},
-			image_file		=#{fileName},
+			image_file		=#{fileName, jdbcType=VARCHAR},
 			quantity		=#{quantity}
 	   	</set>
 	   	WHERE prod_no = #{prodNo}
@@ -58,13 +58,13 @@
 											<where>
 												<if test="searchCondition != null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				AND p.prod_no = #{searchKeyword}
+										 				prod_no = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				AND p.prod_name LIKE '%'||#{searchKeyword}||'%'
+										 				prod_name LIKE '%'||#{searchKeyword}||'%'
 													</if>
 													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				AND p.price = #{searchKeyword}
+										 				price = #{searchKeyword}
 													</if>
 												</if>
 											</where>

@@ -59,9 +59,16 @@ function history(){
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listProduct.do?menu=manage"  target="rightFrame">판매상품관리</a>
+						<a href="/listProduct.do?menu=manage"  target="rightFrame">판매 상품 수정</a>
 					</td>
 				</tr>
+				<tr>
+					<td class="Depth03">
+						<a href="/listDeliveryManage.do"  target="rightFrame">배송,취소,반품관리</a>
+					</td>
+				</tr>
+				
+				
 				<tr>
 					<td class="DepthEnd">&nbsp;</td>
 				</tr>
@@ -76,7 +83,7 @@ function history(){
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">
 			<tr>
 				<td class="Depth03">
-					<a href="/listProduct.do?menu=search" target="rightFrame">상 품 검 색</a>
+					<a href="/listProduct.do?menu=search" target="rightFrame">상 품 검 색(구매)</a>
 				</td>
 			</tr>
 			

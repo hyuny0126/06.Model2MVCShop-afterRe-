@@ -108,6 +108,10 @@ public class ProductController {
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
+		System.out.println("수정전 확인"+product);
+		System.out.println("수정전 확인"+product.getQuantity());
+		System.out.println("수정전 확인"+product.getFileName());
+		
 		return "forward:/product/updateProductView.jsp";
 	}
 	
@@ -119,6 +123,9 @@ public class ProductController {
 
 		System.out.println("/updateProduct.do");
 		//Business Logic
+		System.out.println("겟파라메터"+product);
+		System.out.println("겟파라메터"+product.getQuantity());
+		System.out.println("겟파라메터 확인"+product.getFileName());
 		 productService.updateProduct(product);
 		
 		return "redirect:/getProduct.do?prodNo="+product.getProdNo()+"&menu=manage";
@@ -130,33 +137,28 @@ public class ProductController {
 		
 		System.out.println("/listProduct.do");
 		
-		System.out.println("서치 확인"+search.getListOrderby());
-		System.out.println("11111"+search);
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		System.out.println("22222"+search);
+		
 		// Business logic 수행
 		Map<String , Object> map=productService.getProductList(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
-		System.out.println("잘 갔따왔냐");
 		// Model 과 View 연결
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
 		String result = "";
-		System.out.println("메누체크"+request.getParameter("menu"));
 		if (request.getParameter("menu").equals("search")) {
 			result ="forward:/product/listProductSerch.jsp";
 		}else {
 			result ="forward:/product/listProductManage.jsp";
 		}
-		System.out.println("111111111111"+result);
 		return result;
 	}
 }

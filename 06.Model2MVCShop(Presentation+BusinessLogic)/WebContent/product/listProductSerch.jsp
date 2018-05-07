@@ -10,13 +10,16 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript">
+  <script type="text/javascript">
 	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 	function fncList(currentPage) {
 		document.getElementById("currentPage").value = currentPage;
 	   	document.detailForm.submit();		
 	}
-</script>
+</script> 
+
+
+
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
@@ -121,10 +124,12 @@
 		<td colspan="6" >
 			전체  ${resultPage.totalCount } 건수, 현재  ${resultPage.currentPage} 페이지
 		</td>
-		<td colspan="6" >
-			<a href="/listProduct.do?listOrderby=0&menu=search">신상품순</a>&nbsp;&nbsp; <a href="/listProduct.do?listOrderby=1&menu=search">가격낮은순</a>&nbsp;&nbsp;<a href="/listProduct.do?listOrderby=2&menu=search">가격높은순</a> 
+		<td colspan="5" > 
+				<a href="/listProduct.do?listOrderby=0&menu=search">신상품순</a>&nbsp;&nbsp; <a href="/listProduct.do?listOrderby=1&menu=search">가격낮은순</a>&nbsp;&nbsp;<a href="/listProduct.do?listOrderby=2&menu=search">가격높은순</a> 
+				<input type="hidden" name="listOrderby" value="${search.listOrderby}"/>
 		</td>
 	</tr>
+	
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
 		<td class="ct_line02"></td>
@@ -176,7 +181,7 @@
 					<!-- 현재상태 항목(수량에 따라)  -->	
 					<c:choose>
 						<c:when test="${product.quantity>=1}">판매중</c:when>
-						<c:otherwise>재고없음</c:otherwise>
+						<c:otherwise>품절(재입고 준비중)</c:otherwise>
 					</c:choose>
 					</td>
 				</tr>

@@ -36,7 +36,6 @@ public class PurchaseServiceImpl implements PurchaseService  {
 		///Method
 		//备概夸没
 		public void addPurchase(Purchase purchase) throws Exception{
-			System.out.println("========================== purchase service impl 备概夸没");
 			purchaseDao.addPurchase(purchase);
 		}
 		

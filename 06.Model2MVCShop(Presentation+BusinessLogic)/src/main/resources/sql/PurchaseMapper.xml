@@ -56,12 +56,15 @@
 		 
 	<!-- SQL : SELECT LIST -->
 	<select  id="getpurchaseList"  parameterType="map"	resultMap="purchaseSelectMap">
-	  	SELECT *
+	  	SELECT tran_no , prod_no , buyer_id , payment_option , 
+		receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code,order_data,dlvy_date, quantity
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT *
 											FROM transaction
 											<where>
-											buyer_id =#{buyerId}
+												<if test="buyerId!=null">
+												buyer_id =#{buyerId}
+												</if>
 											</where>
 											ORDER BY tran_no DESC ) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
@@ -69,11 +72,14 @@
 	 </select>
 
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="string"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT *
 						FROM transaction
-							<where> buyer_id= #{buyerId}
+							<where> 
+							<if test="buyerId!=null">
+								buyer_id= #{buyerId}
+							</if>	
 							</where>
 						 ) countTable						
 	 </select>
@@ -93,7 +99,7 @@
 	   	<set>
 	   		tran_status_code 		= #{tranCode} 
 	   	</set>
-	   	WHERE prod_no = #{purchaseProd.prodNo}
+	   	WHERE tran_no = #{tranNo}
 	 </update>
 	 
 </mapper>
