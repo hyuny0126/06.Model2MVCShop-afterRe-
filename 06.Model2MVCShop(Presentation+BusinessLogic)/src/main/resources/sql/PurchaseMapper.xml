@@ -63,7 +63,7 @@
 											FROM transaction
 											<where>
 												<if test="buyerId!=null">
-												buyer_id =#{buyerId}
+													buyer_id =#{buyerId}
 												</if>
 											</where>
 											ORDER BY tran_no DESC ) inner_table
@@ -77,9 +77,8 @@
 	  	FROM(	SELECT *
 						FROM transaction
 							<where> 
-							<if test="buyerId!=null">
-								buyer_id= #{buyerId}
-							</if>	
+							<if test="buyerId!=null">buyer_id= #{buyerId}</if>	
+							
 							</where>
 						 ) countTable						
 	 </select>

@@ -49,6 +49,18 @@
 		<td class="ct_write01">${purchase.buyer.userId}</td>
 		<input type="hidden" name="buyerId" value="${purchase.buyer.userId}">
 	</tr>
+	
+	<!--구매 수량 추가-->
+	<tr>
+		<td width="104" class="ct_write">::구매수량</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01">
+			<input 	type="text" name="quantity" 	class="ct_input_g" style="width: 100px; height: 19px" 
+							maxLength="20" value="${purchase.quantity}" />
+		</td>
+	</tr>
+	<!--구매 수량 추가 끝-->
+	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
