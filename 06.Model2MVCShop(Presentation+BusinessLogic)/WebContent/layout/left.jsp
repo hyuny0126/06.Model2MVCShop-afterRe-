@@ -59,7 +59,7 @@ function history(){
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listProduct.do?menu=manage"  target="rightFrame">판매 상품 수정</a>
+						<a href="/product/listProduct?menu=manage"  target="rightFrame">판매 상품 수정</a>
 					</td>
 				</tr>
 				<tr>
@@ -83,7 +83,7 @@ function history(){
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">
 			<tr>
 				<td class="Depth03">
-					<a href="/listProduct.do?menu=search" target="rightFrame">상 품 검 색(구매)</a>
+					<a href="/product/listProduct?menu=search" target="rightFrame">상 품 검 색(구매)</a>
 				</td>
 			</tr>
 			

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.model2.mvc.common.Page;
@@ -26,6 +27,7 @@ import com.model2.mvc.service.product.ProductService;
 
 //==> 상품관리 Controller
 @Controller
+@RequestMapping("/product/*")
 public class ProductController {
 	
 	///Field
@@ -50,10 +52,11 @@ public class ProductController {
 	
 	
 	//상품등록
-	@RequestMapping("/addProduct.do")
+	//@RequestMapping("/addProduct.do")
+	@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct( @ModelAttribute("product") Product product) throws Exception {
 
-		System.out.println("/addProduct.do");
+		System.out.println("/product/addProduct :POST");
 		//Business Logic
 		product.setManuDate(product.getManuDate().replaceAll("-", ""));
 		productService.addProduct(product);
@@ -62,13 +65,14 @@ public class ProductController {
 	}
 	
 	//상품조회
-	@RequestMapping("/getProduct.do")
+	//@RequestMapping("/getProduct.do")
+	@RequestMapping(value="getProduct")
 	public String getProduct( @RequestParam("prodNo") String prodNo ,
 														Model model,
 														HttpServletRequest request,
 														HttpServletResponse response) throws Exception {
 		
-		System.out.println("/getProduct.do");
+		System.out.println("/product/getProduct : GET / POST");
 		//Business Logic
 		Product product = productService.getProduct(Integer.parseInt(prodNo));
 		// Model 과 View 연결
@@ -99,43 +103,39 @@ public class ProductController {
 	}
 	
 	///상품수정 전 화면 요청
-	@RequestMapping("/updateProductView.do")
-	public String updateProductView( @RequestParam("prodNo") String prodNo , Model model ) throws Exception{
+	//@RequestMapping("/updateProductView.do")
+	@RequestMapping(value="updateProduct" ,method=RequestMethod.GET)
+	public String updateProduct( @RequestParam("prodNo") String prodNo , Model model ) throws Exception{
 
-		System.out.println("/updateProductView.do");
+		System.out.println("지금 : /product/updateProduct : GET 예전/updateProductView.do");
 		//Business Logic
 		Product product = productService.getProduct(Integer.parseInt(prodNo));
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
-		System.out.println("수정전 확인"+product);
-		System.out.println("수정전 확인"+product.getQuantity());
-		System.out.println("수정전 확인"+product.getFileName());
-		
 		return "forward:/product/updateProductView.jsp";
 	}
 	
 	///상품수정 요청
-	@RequestMapping("/updateProduct.do")
+	//@RequestMapping("/updateProduct.do")
+	@RequestMapping(value="updateProduct" ,method=RequestMethod.POST)
 	public String updateProduct( @ModelAttribute("product") Product product , 
 															Model model , 
 															HttpSession session) throws Exception{
 
-		System.out.println("/updateProduct.do");
+		System.out.println("지금 : /product/updateProduct : POST 예전/updateProduct.do");
 		//Business Logic
-		System.out.println("겟파라메터"+product);
-		System.out.println("겟파라메터"+product.getQuantity());
-		System.out.println("겟파라메터 확인"+product.getFileName());
 		 productService.updateProduct(product);
 		
-		return "redirect:/getProduct.do?prodNo="+product.getProdNo()+"&menu=manage";
+		return "redirect:/product/getProduct?prodNo="+product.getProdNo()+"&menu=manage";
 	}
 	
 	// 상품리스트
-	@RequestMapping("/listProduct.do")
+	//@RequestMapping("/listProduct.do")
+	@RequestMapping( value="listProduct")
 	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
-		System.out.println("/listProduct.do");
+		System.out.println("/product/listProduct : GET / POST");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);

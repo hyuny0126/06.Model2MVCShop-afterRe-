@@ -23,7 +23,7 @@
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=manage" method="post">
+<form name="detailForm" action="/product/listProduct?menu=manage" method="post">
 
 	<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 		<tr>
@@ -121,7 +121,7 @@
 				전체  ${resultPage.totalCount } 건수, 현재  ${resultPage.currentPage} 페이지
 			</td>
 			<td colspan="5" > 
-				<a href="/listProduct.do?listOrderby=0&menu=manage">신상품순</a>&nbsp;&nbsp; <a href="/listProduct.do?listOrderby=1&menu=manage">가격낮은순</a>&nbsp;&nbsp;<a href="/listProduct.do?listOrderby=2&menu=manage">가격높은순</a> 
+				<a href="/product/listProduct?listOrderby=0&menu=manage">신상품순</a>&nbsp;&nbsp; <a href="/product/listProduct?listOrderby=1&menu=manage">가격낮은순</a>&nbsp;&nbsp;<a href="/product/listProduct?listOrderby=2&menu=manage">가격높은순</a> 
 				<input type="hidden" name="listOrderby" value="${search.listOrderby}"/>
 			</td>
 		</tr>
@@ -152,7 +152,7 @@
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 				<td></td>
-				<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">${product.prodName}</a></td>
+				<td align="left"><a href="/product/updateProduct?prodNo=${product.prodNo}&menu=manage">${product.prodName}</a></td>
 				
 				<td></td>
 				<td align="left">${product.prodNo}</td>

@@ -26,7 +26,7 @@
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=search" method="post">
+<form name="detailForm" action="/product/listProduct?menu=search" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -125,7 +125,7 @@
 			전체  ${resultPage.totalCount } 건수, 현재  ${resultPage.currentPage} 페이지
 		</td>
 		<td colspan="5" > 
-				<a href="/listProduct.do?listOrderby=0&menu=search">신상품순</a>&nbsp;&nbsp; <a href="/listProduct.do?listOrderby=1&menu=search">가격낮은순</a>&nbsp;&nbsp;<a href="/listProduct.do?listOrderby=2&menu=search">가격높은순</a> 
+				<a href="/product/listProduct?listOrderby=0&menu=search">신상품순</a>&nbsp;&nbsp; <a href="/product/listProduct?listOrderby=1&menu=search">가격낮은순</a>&nbsp;&nbsp;<a href="/product/listProduct?listOrderby=2&menu=search">가격높은순</a> 
 				<input type="hidden" name="listOrderby" value="${search.listOrderby}"/>
 		</td>
 	</tr>
@@ -161,7 +161,7 @@
 					<td align="left">
 					<!-- 구매버튼 나오도록 (수량에 따라) -->
 					<c:choose>
-						<c:when test="${product.quantity>=1}"><a href="/getProduct.do?prodNo=${product.prodNo}&menu=search">${product.prodName}</a></c:when>
+						<c:when test="${product.quantity>=1}"><a href="/product/getProduct?prodNo=${product.prodNo}&menu=search">${product.prodName}</a></c:when>
 						<c:otherwise>${product.prodName}</c:otherwise>
 					</c:choose>	
 					</td>
