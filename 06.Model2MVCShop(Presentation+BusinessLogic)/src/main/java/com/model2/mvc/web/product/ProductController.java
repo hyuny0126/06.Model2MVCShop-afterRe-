@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.CookieGenerator;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -83,6 +84,7 @@ public class ProductController {
 		//cookie "history"키값에 더해져서 들어가야함  // 계속해서 어펜드 // 넣을 공간 필요 sum +=a, 과자, + 필통, 
 		String sumProNo ="";
 		Cookie[] cookies = request.getCookies(); //쿠키값 가져오는거임
+		
 		//스트링, 스트링, 더해주기 위해
 		Cookie cookie ;
 		if (cookies!=null && cookies.length > 0) {
@@ -90,14 +92,23 @@ public class ProductController {
 				 cookie = cookies[i];
 				if (cookie.getName().equals("history")) {
 					sumProNo = cookie.getValue(); 
+					System.out.println("쿠키 확인을 위해333 "+sumProNo);
 				}//end of if
 			}//end of for
 		}//end of if
 		prodNo = sumProNo+prodNo+",";
 		//쿠키 생성  
 		
-		cookie= new Cookie("history",prodNo);
+		/*
+		 cookie= new Cookie("history",prodNo);
 		response.addCookie(cookie);
+		
+		*/
+		
+		CookieGenerator cg = new CookieGenerator();
+
+		cg.setCookieName("history");
+		cg.addCookie(response, prodNo);
 
 		return "forward:/product/getProduct.jsp";
 	}
