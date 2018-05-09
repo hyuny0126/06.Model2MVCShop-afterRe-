@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +30,7 @@ import com.model2.mvc.service.user.UserService;
 
 //==> 구매관리 Controller
 @Controller
+@RequestMapping("/purchase/*")
 public class PurchaseController {
 	
 	///Field
@@ -56,13 +58,14 @@ public class PurchaseController {
 	
 	
 	///구매전화면 
-	@RequestMapping("/addPurchaseView.do")
-	public ModelAndView addPurchaseView(	
+	//@RequestMapping("/addPurchaseView.do")
+	@RequestMapping(value="addPurchase",  method=RequestMethod.GET )
+	public ModelAndView addPurchase(	
 																							HttpServletRequest request,
 																							@ModelAttribute("product") Product product,
 																							ModelAndView modelAndView) throws Exception {
 		
-		System.out.println("/addPurchaseView.do");
+		System.out.println("/purchase/addPurchase : GET ::구매전화면 ");
 		int prodNo =Integer.parseInt(request.getParameter("prod_no"));
 		 product= productService.getProduct(prodNo);
 		 
@@ -74,14 +77,15 @@ public class PurchaseController {
 	
 	
 	///구매화면
-	@RequestMapping("/addPurchase.do")
-	public ModelAndView addUser( @ModelAttribute("purchase") Purchase purchase,
+	//@RequestMapping("/addPurchase.do")
+	@RequestMapping(value="addPurchase",  method=RequestMethod.POST )
+	public ModelAndView addPurchase( @ModelAttribute("purchase") Purchase purchase,
 																				Product product,
 																				HttpSession session,
 																				HttpServletRequest request,
 																				ModelAndView modelAndView) throws Exception {
 
-		System.out.println("/addPurchase.do");
+		System.out.println("/purchase/addPurchase : POST ");
 		//Business Logic
 		//펄체이스 필드에 담는과정 (유저는 세션에서 뽑아서 객체 통으로 ,프로덕트는 객체 생성해서 상품번호 심은다음 넣어줌, 날짜는 - 빼줌), 트랜코드 1 심어주는건 쿼리로 넘김mapper.xml로, 
 		User user =(User)session.getAttribute("user");
@@ -118,12 +122,13 @@ public class PurchaseController {
 	
 	
 	///구매 상세 조회
-	@RequestMapping("/getPurchase.do")
-	public ModelAndView getUser( @RequestParam("tranNo") String tranNo , 
+	//@RequestMapping("/getPurchase.do")
+	@RequestMapping(value="getPurchase",  method=RequestMethod.GET)
+	public ModelAndView getPurchase( @RequestParam("tranNo") String tranNo , 
 																				Purchase purchase,
 																				ModelAndView modelAndView) throws Exception {
 		
-		System.out.println("/getPurchase.do");
+		System.out.println("purchase/getPurchase:: GET");
 		//Business Logic
 		purchase= purchaseService.getPurchase(Integer.parseInt(tranNo));
 		int prodNO =purchase.getPurchaseProd().getProdNo(); //상품명 가져오기 위해서
@@ -137,11 +142,12 @@ public class PurchaseController {
 	}
 	
 	///구매정보 수정 전 화면
-	@RequestMapping("/updatePurchaseView.do")
-	public ModelAndView updatePurchaseView( @RequestParam("tranNo") String tranNo,
+	//@RequestMapping("/updatePurchaseView.do")
+	@RequestMapping(value="updatePurchase",method=RequestMethod.GET)
+	public ModelAndView updatePurchase( @RequestParam("tranNo") String tranNo,
 																												ModelAndView modelAndView) throws Exception{
 
-		System.out.println("/updatePurchaseView.do");
+		System.out.println("/purchase/updatePurchase ::GET");
 		//Business Logic
 		Purchase purchase= purchaseService.getPurchase(Integer.parseInt(tranNo));
 		
@@ -152,68 +158,72 @@ public class PurchaseController {
 	}
 	
 	///구매 정보수정
-	@RequestMapping("/updatePurchase.do")
+	//@RequestMapping("/updatePurchase.do")
+	@RequestMapping(value="updatePurchase",method=RequestMethod.POST)
 	public ModelAndView updatePurchase( @RequestParam("tranNo") String tranNo,
 																								@ModelAttribute("purchase") Purchase purchase ,
 																								ModelAndView modelAndView) throws Exception{
 
-		System.out.println("/updatePurchase.do");
+		System.out.println("/purchase/updatePurchase ::POST");
 		//Business Logic
 		purchase.setTranNo(Integer.parseInt(tranNo)); 
 		purchase.setDivyDate(purchase.getDivyDate().replaceAll("-",""));
 		purchaseService.updatePurchase(purchase);
 		
 		// Model 과 View 연결
-		modelAndView.setViewName( "redirect:/getPurchase.do?tranNo="+tranNo);
+		modelAndView.setViewName( "redirect:/purchase/getPurchase?tranNo="+tranNo);
 		return modelAndView;
 	}
 	
 	///유저로그인, 구매목록조회에서 물건도착 눌렀을때 , 반품신청할때(반품신청은 단순 코드변경임) 
-	@RequestMapping("/updateTranCode.do")
+	//@RequestMapping("/updateTranCode.do")
+	@RequestMapping(value="updateTranCode" ,method=RequestMethod.GET)
 	public ModelAndView updateTranCode(@Param("tranNo")String tranNo,
 																								@Param("tranCode")String tranCode,
 																								Purchase purchase,
 																								ModelAndView modelAndView) throws Exception{
 		
-		System.out.println("/updateTranCode.do");
+		System.out.println("/purchase/updateTranCode ::GET ::유저 물건도착 누름");
 		//Business Logic
 		purchase.setTranCode(tranCode);
 		purchase.setTranNo(Integer.parseInt(tranNo));
 		purchaseService.updateTranCode(purchase);
 		
 		// Model 과 View 연결
-		modelAndView.setViewName("forward:/listPurchase.do");
+		modelAndView.setViewName("forward:/purchase/listPurchase.do");
 		modelAndView.addObject("purchase", purchase);
 		return modelAndView;
 	}
 	
 	///어드민 로그인, 상품관리에서 배송하기 눌렀을때 
-	@RequestMapping("/updateTranCodeByProd.do")
+	//@RequestMapping("/updateTranCodeByProd.do")
+	@RequestMapping(value="updateTranCodeByProd" ,method=RequestMethod.GET)
 	public ModelAndView updateTranCodeByProd(@Param("tranNo")String tranNo,
 																													@Param("tranCode")String tranCode,
 																													Purchase purchase,
 																													Product product,
 																													ModelAndView modelAndView) throws Exception{
 		
-		System.out.println("/updateTranCodeByProd.do");
+		System.out.println("/purchase/updateTranCodeByProd ::GET ::어드민 배송하기 누름");
 		//Business Logic
 		purchase.setTranCode(tranCode);
 		purchase.setTranNo(Integer.parseInt(tranNo));
 		purchaseService.updateTranCodeByProd(purchase);
 		// Model 과 View 연결
-		modelAndView.setViewName("forward:/listDeliveryManage.do");
+		modelAndView.setViewName("forward:/purchase/listDeliveryManage");
 		return modelAndView;
 	}
 	
 	
 	///유저로그인, 구매목록조회 (바이어아이디로 구매테이블 검색)
-	@RequestMapping("/listPurchase.do")
+	//@RequestMapping("/listPurchase.do")
+	@RequestMapping(value="listPurchase" )
 	public ModelAndView listPurchase( @ModelAttribute("search") Search search ,
 												 		HttpServletRequest request,
 												 		HttpSession session,
 														ModelAndView modelAndView) throws Exception{
 		
-		System.out.println("/listPurchase.do");
+		System.out.println("/purchase/listPurchase ::GET,POST");
 		
 		//서치
 		if(search.getCurrentPage() ==0 ){
@@ -240,13 +250,14 @@ public class PurchaseController {
 	
 	//////추가기능
 	///어드민 로그인. 배송, 구매취소, 반품 관리 목록 조회(전체 구매테이블 검색)
-		@RequestMapping("/listDeliveryManage.do")
+		//@RequestMapping("/listDeliveryManage.do")
+		@RequestMapping(value="listDeliveryManage" )
 		public ModelAndView listDeliveryManage( @ModelAttribute("search") Search search ,
 													 		HttpServletRequest request,
 													 		HttpSession session,
 															ModelAndView modelAndView) throws Exception{
 			
-			System.out.println("/listDeliveryManage.do");
+			System.out.println("/purchase/listDeliveryManage::GET,POST");
 			
 			//서치
 			if(search.getCurrentPage() ==0 ){
@@ -269,7 +280,8 @@ public class PurchaseController {
 		}
 		
 		///주문취소, 반품 수락 후 상품개수 살리기
-		@RequestMapping("/cancleProd.do")
+		//@RequestMapping("/cancleProd.do")
+		@RequestMapping(value="cancleProd" ,method=RequestMethod.GET)
 		public ModelAndView cancleProd(@Param("tranNo")String tranNo,
 																						@Param("tranCode")String tranCode,
 																						Purchase purchase,
@@ -277,7 +289,7 @@ public class PurchaseController {
 																						HttpSession session,
 																						ModelAndView modelAndView) throws Exception{
 			
-			System.out.println("/cancleProd.do");
+			System.out.println("/purchase/cancleProd::GET");
 			//Business Logic
 			//1.구매테이블에서 배송코드 바꾸기, 구매테이블에서 구매수량, 상품번호 들고 오기
 			purchase.setTranCode(tranCode);
@@ -300,9 +312,9 @@ public class PurchaseController {
 			User user =(User)session.getAttribute("user");        // 주문취소는 유저가 한것이고, 반품수락은 어드민이 한것이므로 세션에서 꺼내서 확인 후 해당페이지로 포워드
 			
 			if ( user.getRole().equals("admin") ){
-				modelAndView.setViewName("forward:/listDeliveryManage.do");
+				modelAndView.setViewName("forward:/purchase/listDeliveryManage");
 			}else {
-				modelAndView.setViewName("forward:/listPurchase.do");
+				modelAndView.setViewName("forward:/purchase/listPurchase");
 			}
 			return modelAndView;
 			

@@ -64,7 +64,7 @@ function history(){
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listDeliveryManage.do"  target="rightFrame">배송,취소,반품관리</a>
+						<a href="/purchase/listDeliveryManage"  target="rightFrame">배송,취소,반품관리</a>
 					</td>
 				</tr>
 				
@@ -90,7 +90,7 @@ function history(){
 			<c:if test="${ !empty user && user.role == 'user'}">
 			<tr>
 				<td class="Depth03">
-					<a href="/listPurchase.do"  target="rightFrame">구매이력조회</a>
+					<a href="/purchase/listPurchase"  target="rightFrame">구매이력조회</a>
 				</td>
 			</tr>
 			</c:if>

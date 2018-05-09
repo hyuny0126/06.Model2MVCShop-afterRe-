@@ -25,7 +25,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listPurchase.do" method="post">
+<form name="detailForm" action="/purchase/listPurchase" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -83,7 +83,7 @@
 				<td align="left">${purchase.orderDate}</td>
 				<td></td>
 				
-				<td align="left"><a href="/getPurchase.do?tranNo=${purchase.tranNo}">${purchase.tranNo}</a></td>
+				<td align="left"><a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${purchase.tranNo}</a></td>
 				<td></td>
 				
 				<td align="left">${purchase.purchaseProd.prodNo}</a></td>
@@ -106,11 +106,11 @@
 				<c:choose>
 					<c:when test="${purchase.tranCode.trim()=='0'}">구매가 최소되었습니다.</c:when>
 					<c:when test="${purchase.tranCode.trim()=='1'}">현재 구매완료 상태입니다.
-						<a href="/cancleProd.do?tranNo=${purchase.tranNo}&tranCode=0">구매취소 </a>
+						<a href="/purchase/cancleProd?tranNo=${purchase.tranNo}&tranCode=0">구매취소 </a>
 					</c:when>
 					<c:when test="${purchase.tranCode.trim()=='2'}">현재 배송중입니다.</c:when>
 					<c:when test="${purchase.tranCode.trim()=='3'}">현재 배송완료 상태입니다.
-						<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=-1">반품신청 </a>
+						<a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=-1">반품신청 </a>
 					</c:when>
 					<c:when test="${purchase.tranCode.trim()=='-1'}">반품신청이 완료되었습니다. 기다려주세요.</c:when>
 					<c:when test="${purchase.tranCode.trim()=='-3'}">반품신청이 불가합니다.죄송합니다.</c:when>
@@ -120,7 +120,7 @@
 		
 				<td align="left">
 					<c:if test="${purchase.tranCode.trim()=='2'}">
-						<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=3">물건도착 </a>
+						<a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착 </a>
 					</c:if>
 				</td>
 			</tr>

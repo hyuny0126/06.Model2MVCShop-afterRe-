@@ -23,7 +23,7 @@
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listDeliveryManage.do" method="post">
+<form name="detailForm" action="/purchase/listDeliveryManage" method="post">
 
 	<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 		<tr>
@@ -167,12 +167,12 @@
 					<c:choose>
 						<c:when test="${purchase.tranCode.trim()=='0'}">구매 후 배송전 고객이 취소함   </c:when>
 						 <c:when test="${purchase.tranCode.trim()=='1'}">구매완료  
-						 	<a href="/updateTranCodeByProd.do?tranNo=${purchase.tranNo}&tranCode=2">배송하기 </a>
+						 	<a href="/purchase/updateTranCodeByProd?tranNo=${purchase.tranNo}&tranCode=2">배송하기 </a>
 						 </c:when>
 						 <c:when test="${purchase.tranCode.trim()=='2'}">배송중  </c:when>
 						 <c:when test="${purchase.tranCode.trim()=='-1'}">반품 신청 들어옴 
-						 	<a href="/cancleProd.do?tranNo=${purchase.tranNo}&tranCode=-2">반품수락 </a>
-						 	<a href="/updateTranCodeByProd.do?tranNo=${purchase.tranNo}&tranCode=-3">반품거절 </a> </c:when>
+						 	<a href="/purchase/cancleProd.do?tranNo=${purchase.tranNo}&tranCode=-2">반품수락 </a>
+						 	<a href="/purchase/updateTranCodeByProd?tranNo=${purchase.tranNo}&tranCode=-3">반품거절 </a> </c:when>
 						 <c:when test="${purchase.tranCode.trim()=='-2'}">반품신청 들어와서 수락함 (반품처리가 완료됨)</c:when>
 						 <c:when test="${purchase.tranCode.trim()=='-3'}">반품신청 들어와서 거절함 (물건은 배송되었고 반품신청했으나 거절함)</c:when>
 				  		<c:otherwise> 배송완료</c:otherwise>	
