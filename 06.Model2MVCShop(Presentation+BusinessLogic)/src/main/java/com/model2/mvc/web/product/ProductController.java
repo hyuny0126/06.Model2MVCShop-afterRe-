@@ -1,5 +1,6 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -7,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.CookieGenerator;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
 
 
@@ -55,15 +55,103 @@ public class ProductController {
 	//상품등록
 	//@RequestMapping("/addProduct.do")
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
-	public String addProduct( @ModelAttribute("product") Product product) throws Exception {
+	public String addProduct( @ModelAttribute("product") Product product, 
+																HttpServletRequest request, 
+																HttpServletResponse response,
+																@RequestParam("file")MultipartFile file) throws Exception {
 
 		System.out.println("/product/addProduct :POST");
-		//Business Logic
 		product.setManuDate(product.getManuDate().replaceAll("-", ""));
-		productService.addProduct(product);
 		
-		return "forward:/product/addProductAfter.jsp";
-	}
+		//파일 업로드 하기 위해서 필요한것 
+		File f= new File("C:\\Users\\Bit\\git\\06MVCShop(afterRe)\\06.Model2MVCShop(Presentation+BusinessLogic)\\WebContent\\images\\uploadFiles\\"+file.getOriginalFilename());
+		file.transferTo(f);
+		product.setFileName(file.getOriginalFilename());
+		
+		productService.addProduct(product);
+		//Business Logic
+		
+		/*
+		if(FileUpload.isMultipartContent(request)) {
+			String temDir ="C:\\workspace\\07.Model2MVCShop(URI)fileTest\\WebContent\\images\\uploadFiles\\";
+			
+			DiskFileUpload fileUpload = new DiskFileUpload(); //파일 업로드 핸들러 생성
+			fileUpload.setRepositoryPath(temDir);
+			fileUpload.setSizeMax(1024*1024*10);
+			fileUpload.setSizeThreshold(124*100);
+			
+			if(request.getContentLength()<fileUpload.getSizeMax()) {
+				
+				StringTokenizer token =null;
+				
+				List fileItemList = fileUpload.parseRequest(request);
+				
+				int size = fileItemList.size();
+				
+				for (int i = 0; i < size; i++) {
+					FileItem fileItem = (FileItem)fileItemList.get(i);
+					if(fileItem.isFormField()) {
+						if(fileItem.getFieldName().equals("manuDate")) {
+							token = new StringTokenizer(fileItem.getString("euc-kr"),"-");
+							String manuDate = token.nextToken() + token.nextToken() + token.nextToken();
+							product.setManuDate(manuDate);
+						}
+						else if(fileItem.getFieldName().equals("prodName")) {
+							product.setProdName(fileItem.getString("euc-kr"));
+						}
+						else if(fileItem.getFieldName().equals("prodDetail")) {
+							product.setProdDetail(fileItem.getString("euc-kr"));
+						}
+						else if(fileItem.getFieldName().equals("price")) {
+							product.setPrice(Integer.parseInt(fileItem.getString("euc-kr")));
+						}
+						else if(fileItem.getFieldName().equals("quantity")) {
+							product.setQuantity(Integer.parseInt(fileItem.getString("euc-kr")));
+						}
+					}else { //파일형식이면
+						if(fileItem.getSize()>0){
+							int idx = fileItem.getName().lastIndexOf("\\");
+							if(idx ==-1) {
+								idx = fileItem.getName().lastIndexOf("/");
+							}
+							String fileName = fileItem.getName().substring(idx+1);
+							product.setFileName(fileName);
+							try {
+								File uploadedFile = new File(temDir,fileName);
+								fileItem.write(uploadedFile);
+							}catch (IOException e) {
+								System.out.println(e);
+							}
+									
+						} else{
+									product.setFileName("../../images/empty.GIF");
+						}//파일 업로드 안에서 
+					}		
+				} // 파일업로드 시작
+				
+					String menuDate = request.getParameter("menuDate")	;
+					product.setManuDate(product.getManuDate().replaceAll("-", ""));
+					
+					productService.addProduct(product);
+					request.setAttribute("product", product);
+					
+			}	else {
+						int overSize =(request.getContentLength()/1000000);
+						System.out.println("<script>alert('파일의 크기는 1MB 까지입니다. 올리신 파일 용량은"+overSize +"MB입니다");
+						System.out.println("history.back();</script>");
+					}
+					
+				
+			}else {
+				System.out.println("인코딩 데이터 타입이 multipart/form-data가 아닙니다");
+			}
+
+			*/
+			return "forward:/product/addProductAfter.jsp";
+		
+		
+	
+	} // 상품등록 끝 
 	
 	//상품조회
 	//@RequestMapping("/getProduct.do")
@@ -132,9 +220,15 @@ public class ProductController {
 	@RequestMapping(value="updateProduct" ,method=RequestMethod.POST)
 	public String updateProduct( @ModelAttribute("product") Product product , 
 															Model model , 
-															HttpSession session) throws Exception{
+															HttpSession session,
+															@RequestParam("file")MultipartFile file) throws Exception{
 
 		System.out.println("지금 : /product/updateProduct : POST 예전/updateProduct.do");
+		//파일 업로드 하기 위해서 필요한것 
+		File f= new File("C:\\Users\\Bit\\git\\06MVCShop(afterRe)\\06.Model2MVCShop(Presentation+BusinessLogic)\\WebContent\\images\\uploadFiles\\"+file.getOriginalFilename());
+		file.transferTo(f);
+		product.setFileName(file.getOriginalFilename());
+		
 		//Business Logic
 		 productService.updateProduct(product);
 		

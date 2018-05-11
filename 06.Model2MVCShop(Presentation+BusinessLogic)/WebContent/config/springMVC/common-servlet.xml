@@ -94,5 +94,10 @@
 		<property name="defaultErrorView"	value="/common/error.jsp" />
 		
 	</bean>
+	
+	<!-- 파일 업로드  -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+	
 
 </beans>
